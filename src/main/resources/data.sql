@@ -11,5 +11,10 @@ VALUES ('USER', 1),
 INSERT INTO RESTAURANTS (name)
 VALUES ('Ил Фаро'),
        ('Чайка'),
-       ('Волга-Волга')
+       ('Волга-Волга');
+
+INSERT INTO MENU (restaurant_id, create_at, dishes)
+VALUES (1,'2024-11-05','[{"name":"суп","price":1000},{"name":"компот","price":100}]'),
+       (1,'2024-11-04','[{"name":"компот","price":100},{"name":"хлеб","price":15}]'),
+       (2,'2024-11-05','[{"name":"хлеб","price":15},{"name":"суп","price":1000}]')
 ;

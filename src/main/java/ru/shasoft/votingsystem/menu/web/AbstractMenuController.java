@@ -23,6 +23,6 @@ public abstract class AbstractMenuController {
 
     public List<Menu> getAll() {
         log.info("getAll");
-        return repository.findAll(Sort.by(Sort.Direction.ASC, "name"));
+        return repository.findAll(Sort.by(Sort.Direction.ASC, "restaurantId", "createAt"));
     }
 }

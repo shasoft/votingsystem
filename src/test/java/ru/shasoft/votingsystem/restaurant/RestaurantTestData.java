@@ -4,7 +4,7 @@ import ru.shasoft.votingsystem.MatcherFactory;
 import ru.shasoft.votingsystem.restaurant.model.Restaurant;
 
 public class RestaurantTestData {
-    public static final MatcherFactory.Matcher<Restaurant> RESTAURANT_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Restaurant.class, "registered", "password");
+    public static final MatcherFactory.Matcher<Restaurant> RESTAURANT_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Restaurant.class);
 
     public static final int RESTAURANT_ID_1 = 1;
     public static final int RESTAURANT_ID_2 = 2;

@@ -1,6 +1,5 @@
 package ru.shasoft.votingsystem.menu.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -27,7 +26,6 @@ public class Menu extends BaseEntity implements HasId {
 
     @Setter(AccessLevel.NONE)
     @Column(name = "restaurant_id", nullable = false)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Integer restaurantId;
 
     @Column(name = "create_at")
