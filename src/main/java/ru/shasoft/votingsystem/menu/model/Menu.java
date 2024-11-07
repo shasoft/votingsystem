@@ -1,9 +1,6 @@
 package ru.shasoft.votingsystem.menu.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +14,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "menu")
+@Table(name = "menu",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "create_at"}, name = "uk_restaurant_id_create_at")},
+        indexes = @Index(name = "ik_restaurant_id, create_at", columnList = "create_at, restaurant_id")
+)
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -28,7 +28,7 @@ public class Menu extends BaseEntity implements HasId {
     @Column(name = "restaurant_id", nullable = false)
     private Integer restaurantId;
 
-    @Column(name = "create_at")
+    @Column(name = "create_at", nullable = false)
     private LocalDate createAt;
 
     @Convert(converter = DishesAttributeConverter.class)
