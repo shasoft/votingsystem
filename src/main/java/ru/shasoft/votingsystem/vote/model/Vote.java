@@ -1,4 +1,4 @@
-package ru.shasoft.votingsystem.menu.model;
+package ru.shasoft.votingsystem.vote.model;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -7,21 +7,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.shasoft.votingsystem.common.HasId;
 import ru.shasoft.votingsystem.common.model.BaseEntity;
-import ru.shasoft.votingsystem.menu.Dish;
-import ru.shasoft.votingsystem.menu.DishesAttributeConverter;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
-@Table(name = "menu",
+@Table(name = "vote",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "create_at"}, name = "uk_restaurant_id_create_at")},
         indexes = @Index(name = "ik_restaurant_id, create_at", columnList = "create_at, restaurant_id")
 )
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Menu extends BaseEntity implements HasId {
+public class Vote extends BaseEntity implements HasId {
 // No session, no needs Serializable
 
     @Setter(AccessLevel.NONE)
@@ -31,23 +28,22 @@ public class Menu extends BaseEntity implements HasId {
     @Column(name = "create_at", nullable = false)
     private LocalDate createAt;
 
-    @Convert(converter = DishesAttributeConverter.class)
-    @Column(name = "dishes", length = 1024)
-    private List<Dish> dishes;
+    @Column(name = "user_id", nullable = false)
+    private Integer userId;
 
-    public Menu(Integer id, Integer restaurantId, LocalDate createAt, List<Dish> dishes) {
+    public Vote(Integer id, Integer restaurantId, LocalDate createAt, Integer userId) {
         super(id);
         this.restaurantId = restaurantId;
         this.createAt = createAt;
-        this.dishes = dishes;
+        this.userId = userId;
     }
 
-    public Menu(Menu r) {
-        this(r.id, r.restaurantId, r.createAt, r.dishes);
+    public Vote(Vote v) {
+        this(v.id, v.restaurantId, v.createAt, v.userId);
     }
 
     @Override
     public String toString() {
-        return "Menu(" + id + "): " + restaurantId + ", " + createAt.toString() + " [" + dishes.toString() + "]";
+        return "Vote(" + id + "):" + restaurantId + ", " + createAt.toString();
     }
 }
