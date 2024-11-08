@@ -1,5 +1,6 @@
 package ru.shasoft.votingsystem.vote.repository;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import ru.shasoft.votingsystem.common.BaseRepository;
@@ -23,9 +24,8 @@ public interface VoteRepository extends BaseRepository<Vote> {
         return null;
     }
 
+    @Modifying
     @Transactional
-    default void unlike(int restaurantId, LocalDate create_at, int user_id) {
-        Optional<Vote> optVote = findVote(restaurantId, create_at, user_id);
-        optVote.ifPresent(vote -> delete(vote.id()));
-    }
+    @Query("DELETE FROM Vote v WHERE v.restaurantId = :restaurantId and v.createAt = :create_at and v.userId = :user_id")
+    void unlike(int restaurantId, LocalDate create_at, int user_id);
 }

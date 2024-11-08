@@ -1,0 +1,1 @@
+[Аннотация @Query](https://sysout.ru/annotatsiya-query/)
