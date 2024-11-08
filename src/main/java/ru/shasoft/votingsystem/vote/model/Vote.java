@@ -12,8 +12,8 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "vote",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "create_at"}, name = "uk_restaurant_id_create_at")},
-        indexes = @Index(name = "ik_restaurant_id, create_at", columnList = "create_at, restaurant_id")
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "create_at"}, name = "uk_vote_restaurant_id_create_at")},
+        indexes = @Index(name = "ik_vote_create_at_restaurant_id", columnList = "create_at, restaurant_id")
 )
 @Getter
 @Setter
@@ -44,6 +44,6 @@ public class Vote extends BaseEntity implements HasId {
 
     @Override
     public String toString() {
-        return "Vote(" + id + "):" + restaurantId + ", " + createAt.toString();
+        return "Vote(" + id + "):" + restaurantId + ", " + createAt.toString() + ", " + userId;
     }
 }

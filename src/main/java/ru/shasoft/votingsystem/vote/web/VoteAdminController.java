@@ -13,19 +13,21 @@ public class VoteAdminController extends AbstractVoteController {
 
     static final String REST_URL = "/api/admin/vote";
 
-    @GetMapping
-    public boolean get(@Valid @RequestBody Vote vote) {
+    @PostMapping(value = "/value", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public boolean value(@Valid @RequestBody Vote vote) {
         return repository.findVote(vote.getRestaurantId(), vote.getCreateAt(), vote.getUserId()).isPresent();
     }
 
     @PostMapping(value = "/like", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void like(@Valid @RequestBody Vote vote) {
-        repository.like(vote, 1);
+    @ResponseStatus(HttpStatus.CREATED)
+    public Vote like(@Valid @RequestBody Vote vote) {
+        return repository.like(vote.getRestaurantId(), vote.getCreateAt(), vote.getUserId());
     }
 
-    @DeleteMapping(value = "/unlike", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/unlike", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void unlike(@Valid @RequestBody Vote vote) {
-        repository.like(vote, -1);
+        repository.unlike(vote.getRestaurantId(), vote.getCreateAt(), vote.getUserId());
     }
 }

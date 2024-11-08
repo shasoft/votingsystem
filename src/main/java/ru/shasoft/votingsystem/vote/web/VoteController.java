@@ -6,7 +6,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import ru.shasoft.votingsystem.app.AuthUser;
 import ru.shasoft.votingsystem.common.error.IllegalRequestDataException;
-import ru.shasoft.votingsystem.vote.model.Vote;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -17,6 +16,7 @@ import java.time.LocalTime;
 public class VoteController extends AbstractVoteController {
 
     static final String REST_URL = "/api/vote";
+    static final int VOTE_END_HOUR = 11;
 
     @GetMapping("/{restaurant_id}")
     public boolean get(@PathVariable int restaurant_id, @AuthenticationPrincipal AuthUser authUser) {
@@ -26,21 +26,18 @@ public class VoteController extends AbstractVoteController {
     @PutMapping(value = "/{restaurant_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void like(@PathVariable int restaurant_id, @AuthenticationPrincipal AuthUser authUser) {
-        likeSign(restaurant_id, authUser, 1);
+        if (LocalTime.now().isAfter(LocalTime.of(VOTE_END_HOUR, 0))) {
+            throw new IllegalRequestDataException("It's too late to vote.");
+        }
+        repository.like(restaurant_id, LocalDate.now(), authUser.id());
     }
 
     @DeleteMapping(value = "/{restaurant_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void unlike(@PathVariable int restaurant_id, @AuthenticationPrincipal AuthUser authUser) {
-        likeSign(restaurant_id, authUser, -1);
-    }
-
-    private void likeSign(int restaurant_id, AuthUser authUser, int sign) {
-        if (LocalTime.now().isAfter(LocalTime.of(11, 0))) {
+        if (LocalTime.now().isAfter(LocalTime.of(VOTE_END_HOUR, 0))) {
             throw new IllegalRequestDataException("It's too late to vote.");
         }
-        final Vote vote = new Vote(null, restaurant_id, LocalDate.now(), authUser.id());
-        log.info("vote {}", vote);
-        repository.like(vote, sign);
+        repository.unlike(restaurant_id, LocalDate.now(), authUser.id());
     }
 }

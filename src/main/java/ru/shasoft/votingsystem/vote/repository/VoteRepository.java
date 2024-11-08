@@ -14,18 +14,18 @@ public interface VoteRepository extends BaseRepository<Vote> {
     @Query("SELECT v FROM Vote v WHERE v.restaurantId = :restaurantId and v.createAt = :create_at and v.userId = :user_id")
     Optional<Vote> findVote(int restaurantId, LocalDate create_at, int user_id);
 
-    @Query("DELETE FROM Vote v WHERE v.restaurantId = :restaurantId and v.createAt = :create_at and v.userId = :user_id")
-    void deleteVote(int restaurantId, LocalDate create_at, int user_id);
+    @Transactional
+    default Vote like(int restaurantId, LocalDate create_at, int user_id) {
+        Optional<Vote> optVote = findVote(restaurantId, create_at, user_id);
+        if (optVote.isEmpty()) {
+            return save(new Vote(null, restaurantId, create_at, user_id));
+        }
+        return null;
+    }
 
     @Transactional
-    default void like(Vote vote, int sign) {
-        if (sign > 0) {
-            Optional<Vote> optVote = findVote(vote.getRestaurantId(), vote.getCreateAt(), vote.getUserId());
-            if (optVote.isEmpty()) {
-                save(vote);
-            }
-        } else {
-            deleteVote(vote.getRestaurantId(), vote.getCreateAt(), vote.getUserId());
-        }
+    default void unlike(int restaurantId, LocalDate create_at, int user_id) {
+        Optional<Vote> optVote = findVote(restaurantId, create_at, user_id);
+        optVote.ifPresent(vote -> delete(vote.id()));
     }
 }

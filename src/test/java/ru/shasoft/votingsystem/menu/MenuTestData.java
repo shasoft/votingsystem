@@ -21,9 +21,12 @@ public class MenuTestData {
     public static final Dish dish2 = new Dish("компот", 100);
     public static final Dish dish3 = new Dish("хлеб", 15);
 
-    public static final Menu menu1 = new Menu(MENU_ID_1, RESTAURANT_ID_1, LocalDate.of(2024, 11, 5), List.of(dish1, dish2));
-    public static final Menu menu2 = new Menu(MENU_ID_2, RESTAURANT_ID_1, LocalDate.of(2024, 11, 4), List.of(dish2, dish3));
-    public static final Menu menu3 = new Menu(MENU_ID_3, RESTAURANT_ID_2, LocalDate.of(2024, 11, 5), List.of(dish3, dish1));
+    public static final LocalDate date2024_11_05 = LocalDate.of(2024, 11, 5);
+    public static final LocalDate date2024_11_04 = LocalDate.of(2024, 11, 4);
+
+    public static final Menu menu1 = new Menu(MENU_ID_1, RESTAURANT_ID_1, date2024_11_05, List.of(dish1, dish2));
+    public static final Menu menu2 = new Menu(MENU_ID_2, RESTAURANT_ID_1, date2024_11_04, List.of(dish2, dish3));
+    public static final Menu menu3 = new Menu(MENU_ID_3, RESTAURANT_ID_2, date2024_11_05, List.of(dish3, dish1));
 
     public static Menu getNew() {
         return new Menu(null, RESTAURANT_ID_1, LocalDate.now(), List.of(dish1));

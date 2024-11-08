@@ -18,3 +18,8 @@ VALUES (1,'2024-11-05','[{"name":"суп","price":1000},{"name":"компот","
        (1,'2024-11-04','[{"name":"компот","price":100},{"name":"хлеб","price":15}]'),
        (2,'2024-11-05','[{"name":"хлеб","price":15},{"name":"суп","price":1000}]')
 ;
+
+INSERT INTO VOTE (restaurant_id, create_at, user_id)
+VALUES (1,'2024-11-05',1),
+       (1,'2024-11-04',1)
+;
