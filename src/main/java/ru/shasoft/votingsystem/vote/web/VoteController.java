@@ -21,17 +21,17 @@ public class VoteController extends AbstractVoteController {
         return repository.findVote(restaurant_id, LocalDate.now(), authUser.id()).isPresent();
     }
 
-    @PutMapping(value = "/{restaurant_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping(value = "/{restaurant_id}")
+    @ResponseStatus(HttpStatus.CREATED)
     public void like(@PathVariable int restaurant_id, @AuthenticationPrincipal AuthUser authUser) {
-        ValidationUtil.checkUpdateLike();
+        ValidationUtil.checkUpdateLike(authUser);
         repository.like(restaurant_id, LocalDate.now(), authUser.id());
     }
 
-    @DeleteMapping(value = "/{restaurant_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/{restaurant_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void unlike(@PathVariable int restaurant_id, @AuthenticationPrincipal AuthUser authUser) {
-        ValidationUtil.checkUpdateLike();
+        ValidationUtil.checkUpdateLike(authUser);
         repository.unlike(restaurant_id, LocalDate.now(), authUser.id());
     }
 }
