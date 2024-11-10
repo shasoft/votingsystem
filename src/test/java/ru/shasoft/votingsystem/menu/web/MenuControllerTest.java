@@ -2,15 +2,18 @@ package ru.shasoft.votingsystem.menu.web;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.shasoft.votingsystem.AbstractControllerTest;
-import ru.shasoft.votingsystem.menu.model.Menu;
 import ru.shasoft.votingsystem.menu.repository.MenuRepository;
 
-import java.util.List;
-
-import static ru.shasoft.votingsystem.menu.MenuTestData.date2024_11_04;
-import static ru.shasoft.votingsystem.menu.MenuTestData.dateToday;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.shasoft.votingsystem.menu.MenuTestData.*;
 import static ru.shasoft.votingsystem.menu.web.MenuController.REST_URL;
+import static ru.shasoft.votingsystem.user.UserTestData.USER_MAIL;
 
 class MenuControllerTest extends AbstractControllerTest {
 
@@ -20,8 +23,11 @@ class MenuControllerTest extends AbstractControllerTest {
     private MenuRepository repository;
 
     @Test
-    void today() {
-        List<Menu> menus = repository.getByDate(date2024_11_04, dateToday);
-        int ff = 0;
+    @WithUserDetails(value = USER_MAIL)
+    void today() throws Exception {
+        ResultActions action = perform(MockMvcRequestBuilders.get(MenuController.REST_URL))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+        action.andExpect(MENU_MATCHER.contentJson(menu3, menu4));
     }
 }

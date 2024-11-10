@@ -16,7 +16,8 @@ VALUES ('Ил Фаро'),
 INSERT INTO MENU (restaurant_id, create_at, dishes)
 VALUES (1, '2024-11-05', '[{"name":"суп","price":1000},{"name":"компот","price":100}]'),
        (1, '2024-11-04', '[{"name":"компот","price":100},{"name":"хлеб","price":15}]'),
-       (2, CURRENT_DATE, '[{"name":"хлеб","price":15},{"name":"суп","price":1000}]')
+       (2, CURRENT_DATE, '[{"name":"хлеб","price":15},{"name":"суп","price":1000}]'),
+       (3, CURRENT_DATE, '[{"name":"хлеб","price":15},{"name":"компот","price":100},{"name":"суп","price":1000}]')
 ;
 
 INSERT INTO VOTE (restaurant_id, create_at, user_id)
