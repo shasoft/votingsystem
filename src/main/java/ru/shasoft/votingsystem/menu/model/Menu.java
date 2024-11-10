@@ -5,10 +5,13 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ru.shasoft.votingsystem.common.HasId;
 import ru.shasoft.votingsystem.common.model.BaseEntity;
 import ru.shasoft.votingsystem.menu.Dish;
 import ru.shasoft.votingsystem.menu.DishesAttributeConverter;
+import ru.shasoft.votingsystem.restaurant.model.Restaurant;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -24,9 +27,16 @@ import java.util.List;
 public class Menu extends BaseEntity implements HasId {
 // No session, no needs Serializable
 
+    /*
     @Setter(AccessLevel.NONE)
     @Column(name = "restaurant_id", nullable = false)
     private Integer restaurantId;
+     */
+
+    @JoinColumn(name = "restaurant_id")
+    @ManyToOne//(cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Restaurant restaurant;
 
     @Column(name = "create_at", nullable = false)
     private LocalDate createAt;
@@ -35,19 +45,20 @@ public class Menu extends BaseEntity implements HasId {
     @Column(name = "dishes", length = 1024)
     private List<Dish> dishes;
 
-    public Menu(Integer id, Integer restaurantId, LocalDate createAt, List<Dish> dishes) {
+    public Menu(Integer id, Restaurant restaurant, LocalDate createAt, List<Dish> dishes) {
         super(id);
-        this.restaurantId = restaurantId;
+        //this.restaurantId = restaurantId;
+        this.restaurant = restaurant;
         this.createAt = createAt;
         this.dishes = dishes;
     }
 
     public Menu(Menu r) {
-        this(r.id, r.restaurantId, r.createAt, r.dishes);
+        this(r.id, r.restaurant, r.createAt, r.dishes);
     }
 
     @Override
     public String toString() {
-        return "Menu(" + id + "): " + restaurantId + ", " + createAt.toString() + " [" + dishes.toString() + "]";
+        return "Menu(" + id + "): " + restaurant.id() + ", " + createAt.toString() + " [" + dishes.toString() + "]";
     }
 }

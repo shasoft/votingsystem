@@ -21,5 +21,6 @@ VALUES (1, '2024-11-05', '[{"name":"суп","price":1000},{"name":"компот"
 
 INSERT INTO VOTE (restaurant_id, create_at, user_id)
 VALUES (1, '2024-11-05', 1),
+       (1, '2024-11-05', 2),
        (2, CURRENT_DATE, 1)
 ;

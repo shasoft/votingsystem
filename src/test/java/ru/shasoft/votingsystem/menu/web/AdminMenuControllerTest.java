@@ -34,7 +34,7 @@ class AdminMenuControllerTest extends AbstractControllerTest {
     void create() {
         Menu newMenu = getNew();
         Menu saveMenu = repository.save(newMenu);
-        Optional<Menu> optGetMenu = repository.findById(newMenu.id());
+        Optional<Menu> optGetMenu = repository.findById(saveMenu.id());
         assertTrue(optGetMenu.isPresent());
         MENU_MATCHER.assertMatch(saveMenu, optGetMenu.get());
     }
