@@ -15,7 +15,7 @@ public class MenuController extends AbstractMenuController {
 
     static final String REST_URL = "/api/menu";
 
-    @GetMapping
+    @GetMapping("today")
     public List<Menu> today() {
         final LocalDate now = LocalDate.now();
         return repository.getByDate(now, now);

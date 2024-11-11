@@ -20,7 +20,7 @@ class MenuControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void today() throws Exception {
-        ResultActions action = perform(MockMvcRequestBuilders.get(MenuController.REST_URL))
+        ResultActions action = perform(MockMvcRequestBuilders.get(REST_URL_SLASH + "today"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
         action.andExpect(MENU_MATCHER.contentJson(menu3, menu4));
