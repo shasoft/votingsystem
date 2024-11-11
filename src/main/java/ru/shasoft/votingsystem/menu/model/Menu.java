@@ -45,16 +45,23 @@ public class Menu extends BaseEntity implements HasId {
     @Column(name = "dishes", length = 1024)
     private List<Dish> dishes;
 
-    public Menu(Integer id, Restaurant restaurant, LocalDate createAt, List<Dish> dishes) {
+    @Column(name = "votes", nullable = false)
+    private int votes;
+
+    public Menu(Integer id, Restaurant restaurant, LocalDate createAt, List<Dish> dishes, int votes) {
         super(id);
-        //this.restaurantId = restaurantId;
         this.restaurant = restaurant;
         this.createAt = createAt;
         this.dishes = dishes;
+        this.votes = votes;
+    }
+
+    public Menu(Integer id, Restaurant restaurant, LocalDate createAt, List<Dish> dishes) {
+        this(id, restaurant, createAt, dishes, 0);
     }
 
     public Menu(Menu r) {
-        this(r.id, r.restaurant, r.createAt, r.dishes);
+        this(r.id, r.restaurant, r.createAt, r.dishes, r.votes);
     }
 
     @Override
