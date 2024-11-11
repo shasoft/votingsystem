@@ -4,7 +4,9 @@ import ru.shasoft.votingsystem.MatcherFactory;
 import ru.shasoft.votingsystem.vote.model.Vote;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
+import static ru.shasoft.votingsystem.common.validation.ValidationUtil.VOTE_END_HOUR;
 import static ru.shasoft.votingsystem.menu.MenuTestData.date2024_11_05;
 import static ru.shasoft.votingsystem.restaurant.RestaurantTestData.RESTAURANT_ID_1;
 import static ru.shasoft.votingsystem.restaurant.RestaurantTestData.RESTAURANT_ID_2;
@@ -13,6 +15,9 @@ import static ru.shasoft.votingsystem.user.UserTestData.USER_ID;
 
 public class VoteTestData {
     public static final MatcherFactory.Matcher<Vote> VOTE_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Vote.class);
+
+    public static final LocalTime timeBefore = LocalTime.of(VOTE_END_HOUR - 1, 59);
+    public static final LocalTime timeAfter = LocalTime.of(VOTE_END_HOUR, 1);
 
     public static final int VOTE_ID_1 = 1;
     public static final int NOT_FOUND = 100;

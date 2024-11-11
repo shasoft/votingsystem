@@ -66,6 +66,6 @@ public class Menu extends BaseEntity implements HasId {
 
     @Override
     public String toString() {
-        return "Menu(" + id + "): " + restaurant.id() + ", " + createAt.toString() + " [" + dishes.toString() + "]";
+        return "Menu(" + id + "): " + restaurant.id() + ", " + createAt.toString() + ", " + votes + " [" + dishes.toString() + "]";
     }
 }
