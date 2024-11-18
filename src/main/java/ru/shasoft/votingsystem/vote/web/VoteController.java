@@ -15,7 +15,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(value = VoteController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-// TODO: cache only most requested, seldom changed data!
 public class VoteController extends AbstractVoteController {
 
     static final String REST_URL = "/api/vote";

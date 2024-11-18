@@ -16,7 +16,6 @@ import static ru.shasoft.votingsystem.common.validation.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(value = AdminMenuController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-// TODO: cache only most requested, seldom changed data!
 public class AdminMenuController extends AbstractMenuController {
 
     static final String REST_URL = "/api/admin/menu";

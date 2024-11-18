@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = MenuController.REST_URL)
-// TODO: cache only most requested, seldom changed data!
 public class MenuController extends AbstractMenuController {
 
     static final String REST_URL = "/api/menu";

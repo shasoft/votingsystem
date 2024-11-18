@@ -11,7 +11,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = RestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-// TODO: cache only most requested, seldom changed data!
 public class RestaurantController extends AbstractRestaurantController {
 
     static final String REST_URL = "/api/restaurants";
