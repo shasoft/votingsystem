@@ -24,6 +24,6 @@ public class MenuController extends AbstractMenuController {
     @GetMapping("weekly")
     public List<Menu> weekly() {
         final LocalDate now = LocalDate.now();
-        return repository.getByDate(now, now.plusDays(7));
+        return repository.getByDate(now, now.plusDays(6));
     }
 }
