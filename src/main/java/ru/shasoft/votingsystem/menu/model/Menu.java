@@ -24,13 +24,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Menu extends BaseEntity implements HasId {
-// No session, no needs Serializable
-
-    /*
-    @Setter(AccessLevel.NONE)
-    @Column(name = "restaurant_id", nullable = false)
-    private Integer restaurantId;
-     */
 
     @JoinColumn(name = "restaurant_id")
     @ManyToOne//(cascade = CascadeType.ALL)
