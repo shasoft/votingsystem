@@ -8,7 +8,7 @@ VALUES ('USER', 1),
        ('ADMIN', 2),
        ('USER', 2);
 
-INSERT INTO RESTAURANTS (name)
+INSERT INTO RESTAURANT (name)
 VALUES ('Ил Фаро'),
        ('Чайка'),
        ('Волга-Волга');

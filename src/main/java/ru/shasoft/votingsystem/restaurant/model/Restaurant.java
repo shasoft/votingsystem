@@ -10,7 +10,7 @@ import ru.shasoft.votingsystem.common.HasId;
 import ru.shasoft.votingsystem.common.model.NamedEntity;
 
 @Entity
-@Table(name = "restaurants")
+@Table(name = "restaurant")
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
