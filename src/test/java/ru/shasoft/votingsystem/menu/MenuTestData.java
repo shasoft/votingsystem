@@ -1,6 +1,7 @@
 package ru.shasoft.votingsystem.menu;
 
 import ru.shasoft.votingsystem.MatcherFactory;
+import ru.shasoft.votingsystem.menu.model.Dish;
 import ru.shasoft.votingsystem.menu.model.Menu;
 import ru.shasoft.votingsystem.restaurant.RestaurantTestData;
 

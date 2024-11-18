@@ -1,4 +1,4 @@
-package ru.shasoft.votingsystem.menu;
+package ru.shasoft.votingsystem.menu.model;
 
 public class Dish {
     public String name;

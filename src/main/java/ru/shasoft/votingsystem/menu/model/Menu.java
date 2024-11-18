@@ -9,7 +9,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import ru.shasoft.votingsystem.common.HasId;
 import ru.shasoft.votingsystem.common.model.BaseEntity;
-import ru.shasoft.votingsystem.menu.Dish;
 import ru.shasoft.votingsystem.menu.DishesAttributeConverter;
 import ru.shasoft.votingsystem.restaurant.model.Restaurant;
 
