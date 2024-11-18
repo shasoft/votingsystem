@@ -12,35 +12,35 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface VoteRepository extends BaseRepository<Vote> {
 
-    @Query("SELECT v FROM Vote v WHERE v.restaurantId = :restaurantId and v.createAt = :create_at and v.userId = :user_id")
-    Optional<Vote> findVote(int restaurantId, LocalDate create_at, int user_id);
+    @Query("SELECT v FROM Vote v WHERE v.restaurantId = :restaurantId and v.createAt = :createAt and v.userId = :userId")
+    Optional<Vote> findVote(int restaurantId, LocalDate createAt, int userId);
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM Vote v WHERE v.restaurantId = :restaurantId and v.createAt = :create_at and v.userId = :user_id")
-    int deleteVote(int restaurantId, LocalDate create_at, int user_id);
+    @Query("DELETE FROM Vote v WHERE v.restaurantId = :restaurantId and v.createAt = :createAt and v.userId = :userId")
+    int deleteVote(int restaurantId, LocalDate createAt, int userId);
 
     @Modifying
     @Transactional
-    @Query("UPDATE Menu m SET m.votes = m.votes + :votes WHERE m.restaurant.id = :restaurantId and m.cookingAt = :create_at")
-    void updateVotes(int restaurantId, LocalDate create_at, int votes);
+    @Query("UPDATE Menu m SET m.votes = m.votes + :votes WHERE m.restaurant.id = :restaurantId and m.cookingAt = :createAt")
+    void updateVotes(int restaurantId, LocalDate createAt, int votes);
 
     @Transactional
-    default Vote like(int restaurantId, LocalDate create_at, int user_id) {
+    default Vote like(int restaurantId, LocalDate createAt, int userId) {
         Vote ret = null;
-        Optional<Vote> optVote = findVote(restaurantId, create_at, user_id);
+        Optional<Vote> optVote = findVote(restaurantId, createAt, userId);
         if (optVote.isEmpty()) {
-            ret = save(new Vote(null, restaurantId, create_at, user_id));
-            updateVotes(restaurantId, create_at, 1);
+            ret = save(new Vote(null, restaurantId, createAt, userId));
+            updateVotes(restaurantId, createAt, 1);
         }
         return ret;
     }
 
     @Transactional
-    default void unlike(int restaurantId, LocalDate create_at, int user_id) {
-        final int updates = deleteVote(restaurantId, create_at, user_id);
+    default void unlike(int restaurantId, LocalDate createAt, int userId) {
+        final int updates = deleteVote(restaurantId, createAt, userId);
         if (updates != 0) {
-            updateVotes(restaurantId, create_at, -1);
+            updateVotes(restaurantId, createAt, -1);
         }
     }
 }

@@ -18,7 +18,6 @@ public class DishesAttributeConverter implements AttributeConverter<List<Dish>, 
         try {
             return objectMapper.writeValueAsString(items);
         } catch (JsonProcessingException jpe) {
-            //log.warn("Cannot convert Address into JSON");
             return null;
         }
     }
@@ -28,9 +27,7 @@ public class DishesAttributeConverter implements AttributeConverter<List<Dish>, 
         try {
             return objectMapper.readValue(value, new TypeReference<List<Dish>>() {
             });
-            //List<MenuItems>.class);
         } catch (JsonProcessingException e) {
-            //log.warn("Cannot convert JSON into Address");
             return null;
         }
     }
