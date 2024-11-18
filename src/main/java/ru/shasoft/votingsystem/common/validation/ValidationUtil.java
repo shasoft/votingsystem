@@ -10,7 +10,7 @@ import java.time.LocalTime;
 
 @UtilityClass
 public class ValidationUtil {
-    public static final int VOTE_END_HOUR = 11;
+    public static final LocalTime VOTE_END_TIME = LocalTime.of(11, 0);
 
     public static void checkNew(HasId bean) {
         if (!bean.isNew()) {
@@ -32,7 +32,7 @@ public class ValidationUtil {
             throw new IllegalRequestDataException("No permission to perform the operation");
         }
         final LocalTime now = LocalTime.now();
-        if (now.isAfter(LocalTime.of(VOTE_END_HOUR, 0))) {
+        if (now.isAfter(VOTE_END_TIME)) {
             throw new IllegalRequestDataException("It's too late to vote.");
         }
     }
