@@ -17,15 +17,16 @@ import static org.mockito.Mockito.mockStatic;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.shasoft.votingsystem.common.validation.ValidationUtil.VOTE_END_TIME;
 import static ru.shasoft.votingsystem.restaurant.RestaurantTestData.*;
 import static ru.shasoft.votingsystem.user.UserTestData.*;
-import static ru.shasoft.votingsystem.vote.VoteTestData.timeAfter;
-import static ru.shasoft.votingsystem.vote.VoteTestData.timeBefore;
 import static ru.shasoft.votingsystem.vote.web.VoteController.REST_URL;
 
 class VoteControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL_SLASH = REST_URL + '/';
+    private static final LocalTime timeBefore = VOTE_END_TIME.minusHours(1);
+    private static final LocalTime timeAfter = VOTE_END_TIME.plusHours(1);
 
     @Autowired
     private VoteRepository repository;
