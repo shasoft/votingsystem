@@ -34,7 +34,7 @@ public class Menu extends BaseEntity implements HasId {
     private LocalDate cookingAt;
 
     @Convert(converter = DishesAttributeConverter.class)
-    @Column(name = "dishes", length = 1024)
+    @Column(name = "dishes", length = 256 * 256)
     private List<Dish> dishes;
 
     @Column(name = "votes", nullable = false)
