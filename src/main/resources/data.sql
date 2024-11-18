@@ -13,7 +13,7 @@ VALUES ('Ил Фаро'),
        ('Чайка'),
        ('Волга-Волга');
 
-INSERT INTO MENU (restaurant_id, create_at, dishes, votes)
+INSERT INTO MENU (restaurant_id, cooking_at, dishes, votes)
 VALUES (1, '2024-11-05', '[{"name":"суп","price":1000},{"name":"компот","price":100}]', 2),
        (1, '2024-11-04', '[{"name":"компот","price":100},{"name":"хлеб","price":15}]', 0),
        (2, CURRENT_DATE, '[{"name":"хлеб","price":15},{"name":"суп","price":1000}]', 1),

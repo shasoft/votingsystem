@@ -18,8 +18,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "menu",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "create_at"}, name = "uk_menu_restaurant_id_create_at")},
-        indexes = @Index(name = "ik_menu_create_at_restaurant_id", columnList = "create_at, restaurant_id")
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "cooking_at"}, name = "uk_menu_restaurant_id_create_at")},
+        indexes = @Index(name = "ik_menu_create_at_restaurant_id", columnList = "cooking_at, restaurant_id")
 )
 @Getter
 @Setter
@@ -38,8 +38,8 @@ public class Menu extends BaseEntity implements HasId {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
-    @Column(name = "create_at", nullable = false)
-    private LocalDate createAt;
+    @Column(name = "cooking_at", nullable = false)
+    private LocalDate cookingAt;
 
     @Convert(converter = DishesAttributeConverter.class)
     @Column(name = "dishes", length = 1024)
@@ -51,7 +51,7 @@ public class Menu extends BaseEntity implements HasId {
     public Menu(Integer id, Restaurant restaurant, LocalDate createAt, List<Dish> dishes, int votes) {
         super(id);
         this.restaurant = restaurant;
-        this.createAt = createAt;
+        this.cookingAt = createAt;
         this.dishes = dishes;
         this.votes = votes;
     }
@@ -61,11 +61,11 @@ public class Menu extends BaseEntity implements HasId {
     }
 
     public Menu(Menu r) {
-        this(r.id, r.restaurant, r.createAt, r.dishes, r.votes);
+        this(r.id, r.restaurant, r.cookingAt, r.dishes, r.votes);
     }
 
     @Override
     public String toString() {
-        return "Menu(" + id + "): " + restaurant.id() + ", " + createAt.toString() + ", " + votes + " [" + dishes.toString() + "]";
+        return "Menu(" + id + "): " + restaurant.id() + ", " + cookingAt.toString() + ", " + votes + " [" + dishes.toString() + "]";
     }
 }

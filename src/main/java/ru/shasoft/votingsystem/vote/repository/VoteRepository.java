@@ -22,7 +22,7 @@ public interface VoteRepository extends BaseRepository<Vote> {
 
     @Modifying
     @Transactional
-    @Query("UPDATE Menu m SET m.votes = m.votes + :votes WHERE m.restaurant.id = :restaurantId and m.createAt = :create_at")
+    @Query("UPDATE Menu m SET m.votes = m.votes + :votes WHERE m.restaurant.id = :restaurantId and m.cookingAt = :create_at")
     void updateVotes(int restaurantId, LocalDate create_at, int votes);
 
     @Transactional
