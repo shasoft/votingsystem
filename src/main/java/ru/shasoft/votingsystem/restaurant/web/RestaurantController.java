@@ -13,15 +13,15 @@ import java.util.List;
 @RequestMapping(value = RestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantController extends AbstractRestaurantController {
 
-    static final String REST_URL = "/api/restaurants";
+    static final String REST_URL = "/api";
 
     @Override
-    @GetMapping("/{id}")
+    @GetMapping("/restaurant/{id}")
     public Restaurant get(@PathVariable int id) {
         return super.get(id);
     }
 
-    @GetMapping
+    @GetMapping("/restaurants")
     public List<Restaurant> getAll() {
         return super.getAll();
     }

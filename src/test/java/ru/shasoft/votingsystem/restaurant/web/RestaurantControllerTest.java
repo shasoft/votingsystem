@@ -15,7 +15,7 @@ import static ru.shasoft.votingsystem.user.UserTestData.USER_MAIL;
 
 class RestaurantControllerTest extends AbstractControllerTest {
 
-    private static final String REST_URL_SLASH = REST_URL + '/';
+    private static final String REST_URL_SLASH = REST_URL + "/restaurant/";
 
     @Test
     @WithUserDetails(value = USER_MAIL)
@@ -31,7 +31,7 @@ class RestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void getAll() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL))
+        perform(MockMvcRequestBuilders.get(REST_URL + "/restaurants"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(RESTAURANT_MATCHER.contentJson(restaurant3, restaurant1, restaurant2));
