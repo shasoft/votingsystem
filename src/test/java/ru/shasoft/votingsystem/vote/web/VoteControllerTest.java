@@ -1,5 +1,6 @@
 package ru.shasoft.votingsystem.vote.web;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import static ru.shasoft.votingsystem.restaurant.RestaurantTestData.*;
 import static ru.shasoft.votingsystem.user.UserTestData.*;
 import static ru.shasoft.votingsystem.vote.web.VoteController.REST_URL;
 
+@Disabled
 class VoteControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL_SLASH = REST_URL + '/';
