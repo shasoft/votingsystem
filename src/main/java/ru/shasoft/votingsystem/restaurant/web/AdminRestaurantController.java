@@ -18,27 +18,27 @@ import static ru.shasoft.votingsystem.common.validation.ValidationUtil.checkNew;
 @RequestMapping(value = AdminRestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminRestaurantController extends AbstractRestaurantController {
 
-    static final String REST_URL = "/api/admin/restaurants";
+    static final String REST_URL = "/api/admin";
 
     @Override
-    @GetMapping("/{id}")
+    @GetMapping("/restaurant/{id}")
     public Restaurant get(@PathVariable int id) {
         return super.get(id);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/restaurant/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
         log.info("delete {}", id);
         repository.deleteExisted(id);
     }
 
-    @GetMapping
+    @GetMapping("/restaurant" + "s")
     public List<Restaurant> getAll() {
         return super.getAll();
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/restaurant", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> createWithLocation(@Valid @RequestBody Restaurant restaurant) {
         log.info("create {}", restaurant);
         checkNew(restaurant);
@@ -49,7 +49,7 @@ public class AdminRestaurantController extends AbstractRestaurantController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/restaurant/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable int id) {
         log.info("update {} with id={}", restaurant, id);
