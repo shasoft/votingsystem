@@ -5,12 +5,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import ru.shasoft.votingsystem.common.HasId;
 import ru.shasoft.votingsystem.common.model.BaseEntity;
 import ru.shasoft.votingsystem.menu.DishesAttributeConverter;
-import ru.shasoft.votingsystem.restaurant.model.Restaurant;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -25,10 +22,9 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Menu extends BaseEntity implements HasId {
 
-    @JoinColumn(name = "restaurant_id")
-    @ManyToOne//(cascade = CascadeType.ALL)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Restaurant restaurant;
+
+    @Column(name = "restaurant_id", nullable = false)
+    private int restaurantId;
 
     @Column(name = "cooking_at", nullable = false)
     private LocalDate cookingAt;
@@ -37,27 +33,19 @@ public class Menu extends BaseEntity implements HasId {
     @Column(name = "dishes", length = 256 * 256)
     private List<Dish> dishes;
 
-    @Column(name = "votes", nullable = false)
-    private int votes;
-
-    public Menu(Integer id, Restaurant restaurant, LocalDate createAt, List<Dish> dishes, int votes) {
+    public Menu(Integer id, int restaurantId, LocalDate createAt, List<Dish> dishes) {
         super(id);
-        this.restaurant = restaurant;
+        this.restaurantId = restaurantId;
         this.cookingAt = createAt;
         this.dishes = dishes;
-        this.votes = votes;
-    }
-
-    public Menu(Integer id, Restaurant restaurant, LocalDate createAt, List<Dish> dishes) {
-        this(id, restaurant, createAt, dishes, 0);
     }
 
     public Menu(Menu r) {
-        this(r.id, r.restaurant, r.cookingAt, r.dishes, r.votes);
+        this(r.id, r.restaurantId, r.cookingAt, r.dishes);
     }
 
     @Override
     public String toString() {
-        return "Menu(" + id + "): " + restaurant.id() + ", " + cookingAt.toString() + ", " + votes + " [" + dishes.toString() + "]";
+        return "Menu(" + id + "): " + restaurantId + ", " + cookingAt.toString() + ", [" + dishes.toString() + "]";
     }
 }

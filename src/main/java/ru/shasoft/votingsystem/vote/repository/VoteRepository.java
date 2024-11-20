@@ -20,6 +20,7 @@ public interface VoteRepository extends BaseRepository<Vote> {
     @Query("DELETE FROM Vote v WHERE v.restaurantId = :restaurantId and v.createAt = :createAt and v.userId = :userId")
     int deleteVote(int restaurantId, LocalDate createAt, int userId);
 
+    /*
     @Modifying
     @Transactional
     @Query("UPDATE Menu m SET m.votes = m.votes + :votes WHERE m.restaurant.id = :restaurantId and m.cookingAt = :createAt")
@@ -43,4 +44,5 @@ public interface VoteRepository extends BaseRepository<Vote> {
             updateVotes(restaurantId, createAt, -1);
         }
     }
+    */
 }

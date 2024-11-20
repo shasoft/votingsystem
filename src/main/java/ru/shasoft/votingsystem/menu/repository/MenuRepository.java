@@ -10,6 +10,6 @@ import java.util.List;
 
 @Transactional(readOnly = true)
 public interface MenuRepository extends BaseRepository<Menu> {
-    @Query("SELECT m FROM Menu m WHERE m.cookingAt BETWEEN :createAtFrom AND :createAtTo ORDER BY m.id")
-    List<Menu> getByDate(LocalDate createAtFrom, LocalDate createAtTo);
+    @Query("SELECT m FROM Menu m WHERE m.cookingAt = :cookingAt")
+    List<Menu> getByDate(LocalDate cookingAt);
 }

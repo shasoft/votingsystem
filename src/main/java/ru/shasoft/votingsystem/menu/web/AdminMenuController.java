@@ -20,6 +20,17 @@ public class AdminMenuController extends AbstractMenuController {
 
     static final String REST_URL = "/api/admin/menu";
 
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Menu> createWithLocation(@Valid @RequestBody Menu menu) {
+        log.info("create {}", menu);
+        checkNew(menu);
+        Menu created = repository.save(menu);
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/{id}")
+                .buildAndExpand(created.getId()).toUri();
+        return ResponseEntity.created(uriOfNewResource).body(created);
+    }
+
     @Override
     @GetMapping("/{id}")
     public Menu get(@PathVariable int id) {
@@ -36,17 +47,6 @@ public class AdminMenuController extends AbstractMenuController {
     @GetMapping
     public List<Menu> getAll() {
         return super.getAll();
-    }
-
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Menu> createWithLocation(@Valid @RequestBody Menu menu) {
-        log.info("create {}", menu);
-        checkNew(menu);
-        Menu created = repository.save(menu);
-        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{id}")
-                .buildAndExpand(created.getId()).toUri();
-        return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

@@ -25,16 +25,16 @@ public class MenuTestData {
     public static final LocalDate date2024_11_04 = LocalDate.of(2024, 11, 4);
     public static final LocalDate dateToday = LocalDate.now();
 
-    public static final Menu menu1 = new Menu(MENU_ID_1, RestaurantTestData.restaurant1, date2024_11_05, List.of(dish1, dish2), 2);
-    public static final Menu menu2 = new Menu(MENU_ID_2, RestaurantTestData.restaurant1, date2024_11_04, List.of(dish2, dish3), 0);
-    public static final Menu menu3 = new Menu(MENU_ID_3, RestaurantTestData.restaurant2, dateToday, List.of(dish3, dish1), 1);
-    public static final Menu menu4 = new Menu(MENU_ID_4, RestaurantTestData.restaurant3, dateToday, List.of(dish3, dish2, dish1), 0);
+    public static final Menu menu1 = new Menu(MENU_ID_1, RestaurantTestData.restaurant1.id(), date2024_11_05, List.of(dish1, dish2));
+    public static final Menu menu2 = new Menu(MENU_ID_2, RestaurantTestData.restaurant1.id(), date2024_11_04, List.of(dish2, dish3));
+    public static final Menu menu3 = new Menu(MENU_ID_3, RestaurantTestData.restaurant2.id(), dateToday, List.of(dish3, dish1));
+    public static final Menu menu4 = new Menu(MENU_ID_4, RestaurantTestData.restaurant3.id(), dateToday, List.of(dish3, dish2, dish1));
 
     public static Menu getNew() {
-        return new Menu(null, RestaurantTestData.restaurant1, LocalDate.now(), List.of(dish1));
+        return new Menu(null, RestaurantTestData.restaurant1.id(), LocalDate.now(), List.of(dish1));
     }
 
     public static Menu getUpdated() {
-        return new Menu(MENU_ID_1, RestaurantTestData.restaurant1, LocalDate.now(), List.of(dish1, dish2));
+        return new Menu(MENU_ID_1, RestaurantTestData.restaurant1.id(), LocalDate.now(), List.of(dish1, dish2));
     }
 }
