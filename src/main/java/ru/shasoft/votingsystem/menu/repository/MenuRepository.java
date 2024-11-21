@@ -12,4 +12,7 @@ import java.util.List;
 public interface MenuRepository extends BaseRepository<Menu> {
     @Query("SELECT m FROM Menu m WHERE m.cookingAt = :cookingAt")
     List<Menu> getByDate(LocalDate cookingAt);
+
+    @Query("SELECT m FROM Menu m WHERE m.restaurantId = :restaurantId")
+    List<Menu> getByRestaurant(int restaurantId);
 }

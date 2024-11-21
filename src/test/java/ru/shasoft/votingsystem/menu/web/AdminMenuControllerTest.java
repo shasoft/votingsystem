@@ -10,6 +10,7 @@ import ru.shasoft.votingsystem.AbstractControllerTest;
 import ru.shasoft.votingsystem.common.util.JsonUtil;
 import ru.shasoft.votingsystem.menu.model.Menu;
 import ru.shasoft.votingsystem.menu.repository.MenuRepository;
+import ru.shasoft.votingsystem.restaurant.RestaurantTestData;
 
 import java.util.Optional;
 
@@ -53,6 +54,17 @@ class AdminMenuControllerTest extends AbstractControllerTest {
         newMenu.setId(newId);
         MENU_MATCHER.assertMatch(created, newMenu);
         MENU_MATCHER.assertMatch(repository.getExisted(newId), newMenu);
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void createWithNotRestaurant() throws Exception {
+        Menu newMenu = getNew();
+        newMenu.setRestaurantId(RestaurantTestData.NOT_FOUND);
+        perform(MockMvcRequestBuilders.post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(newMenu)))
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -126,6 +138,18 @@ class AdminMenuControllerTest extends AbstractControllerTest {
                 .andExpect(status().isNoContent());
 
         MENU_MATCHER.assertMatch(repository.getExisted(MENU_ID_1), getUpdated());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void updateNotRestaurant() throws Exception {
+        Menu updated = getUpdated();
+        updated.setRestaurantId(RestaurantTestData.NOT_FOUND);
+        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + MENU_ID_1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(updated)))
+                .andDo(print())
+                .andExpect(status().isNotFound());
     }
 
     @Test
