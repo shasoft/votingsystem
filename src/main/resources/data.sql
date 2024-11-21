@@ -20,8 +20,8 @@ VALUES (1, '2024-11-05', '[{"name":"суп","price":1000},{"name":"компот"
        (3, CURRENT_DATE, '[{"name":"хлеб","price":15},{"name":"компот","price":100},{"name":"суп","price":1000}]')
 ;
 
-INSERT INTO VOTE (restaurant_id, create_at, user_id)
-VALUES (1, '2024-11-05', 1),
-       (1, '2024-11-05', 2),
-       (2, CURRENT_DATE, 1)
+INSERT INTO VOTE (create_at, user_id, restaurant_id)
+VALUES ('2024-11-05', 1, 1),
+       ('2024-11-05', 2, 1),
+       (CURRENT_DATE, 2, 2)
 ;

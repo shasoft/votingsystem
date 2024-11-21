@@ -7,19 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.shasoft.votingsystem.AbstractControllerTest;
+import ru.shasoft.votingsystem.vote.model.Vote;
 import ru.shasoft.votingsystem.vote.repository.VoteRepository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.CALLS_REAL_METHODS;
 import static org.mockito.Mockito.mockStatic;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.shasoft.votingsystem.common.validation.ValidationUtil.VOTE_END_TIME;
-import static ru.shasoft.votingsystem.restaurant.RestaurantTestData.*;
+import static ru.shasoft.votingsystem.restaurant.RestaurantTestData.RESTAURANT_ID_2;
+import static ru.shasoft.votingsystem.restaurant.RestaurantTestData.RESTAURANT_ID_3;
 import static ru.shasoft.votingsystem.user.UserTestData.*;
 import static ru.shasoft.votingsystem.vote.web.VoteController.REST_URL;
 
@@ -35,18 +37,74 @@ class VoteControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = USER_MAIL)
-    void like() throws Exception {
+    void voteCreate() throws Exception {
         final int restaurantId = RESTAURANT_ID_3;
-        assertTrue(repository.findVote(restaurantId, LocalDate.now(), USER_ID).isEmpty());
+        final int userId = USER_ID;
+        final LocalDate nowDate = LocalDate.now();
+        assertTrue(repository.findVote(nowDate, userId).isEmpty());
         try (MockedStatic<LocalTime> mock = mockStatic(LocalTime.class, CALLS_REAL_METHODS)) {
             mock.when(LocalTime::now).thenReturn(timeBefore);
-            perform(MockMvcRequestBuilders.put(REST_URL_SLASH + restaurantId))
-                    .andDo(print())
-                    .andExpect(status().isCreated());
+            perform(MockMvcRequestBuilders.get(REST_URL + "?restaurantId=" + restaurantId))
+                    .andExpect(status().isNoContent());
         }
-        assertTrue(repository.findVote(restaurantId, LocalDate.now(), USER_ID).isPresent());
+        final Optional<Vote> optVoteAfter = repository.findVote(nowDate, userId);
+        assertTrue(optVoteAfter.isPresent());
+        assertEquals(optVoteAfter.get().getRestaurantId(), restaurantId);
     }
 
+    @Test
+    @WithUserDetails(value = USER_MAIL)
+    void voteCreateAfter() throws Exception {
+        final int restaurantId = RESTAURANT_ID_3;
+        final int userId = USER_ID;
+        final LocalDate nowDate = LocalDate.now();
+        assertTrue(repository.findVote(nowDate, userId).isEmpty());
+        try (MockedStatic<LocalTime> mock = mockStatic(LocalTime.class, CALLS_REAL_METHODS)) {
+            mock.when(LocalTime::now).thenReturn(timeAfter);
+            perform(MockMvcRequestBuilders.get(REST_URL + "?restaurantId=" + restaurantId))
+                    .andExpect(status().isNoContent());
+        }
+        final Optional<Vote> optVoteAfter = repository.findVote(nowDate, userId);
+        assertTrue(optVoteAfter.isPresent());
+        assertEquals(optVoteAfter.get().getRestaurantId(), restaurantId);
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void voteUpdate() throws Exception {
+        final int restaurantId = RESTAURANT_ID_3;
+        final int userId = ADMIN_ID;
+        final LocalDate nowDate = LocalDate.now();
+        final Optional<Vote> optVoteBefore = repository.findVote(nowDate, userId);
+        assertTrue(optVoteBefore.isPresent());
+        assertEquals(optVoteBefore.get().getRestaurantId(), RESTAURANT_ID_2);
+        try (MockedStatic<LocalTime> mock = mockStatic(LocalTime.class, CALLS_REAL_METHODS)) {
+            mock.when(LocalTime::now).thenReturn(timeBefore);
+            perform(MockMvcRequestBuilders.get(REST_URL + "?restaurantId=" + restaurantId))
+                    .andExpect(status().isNoContent());
+        }
+        final Optional<Vote> optVoteAfter = repository.findVote(nowDate, userId);
+        assertTrue(optVoteAfter.isPresent());
+        assertEquals(optVoteAfter.get().getRestaurantId(), restaurantId);
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void voteUpdateAfter() throws Exception {
+        final int restaurantId = RESTAURANT_ID_3;
+        final int userId = ADMIN_ID;
+        final LocalDate nowDate = LocalDate.now();
+        final Optional<Vote> optVoteBefore = repository.findVote(nowDate, userId);
+        assertTrue(optVoteBefore.isPresent());
+        assertEquals(optVoteBefore.get().getRestaurantId(), RESTAURANT_ID_2);
+        try (MockedStatic<LocalTime> mock = mockStatic(LocalTime.class, CALLS_REAL_METHODS)) {
+            mock.when(LocalTime::now).thenReturn(timeAfter);
+            perform(MockMvcRequestBuilders.get(REST_URL + "?restaurantId=" + restaurantId))
+                    .andExpect(status().isUnprocessableEntity());
+        }
+    }
+
+    /*
     @Test
     @WithUserDetails(value = USER_MAIL)
     void likeAfter() throws Exception {
@@ -124,4 +182,5 @@ class VoteControllerTest extends AbstractControllerTest {
         }
         assertTrue(repository.findVote(restaurantId, LocalDate.now(), ADMIN_ID).isPresent());
     }
+    */
 }

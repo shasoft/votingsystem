@@ -1,6 +1,5 @@
 package ru.shasoft.votingsystem.vote.repository;
 
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import ru.shasoft.votingsystem.common.BaseRepository;
@@ -12,13 +11,8 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface VoteRepository extends BaseRepository<Vote> {
 
-    @Query("SELECT v FROM Vote v WHERE v.restaurantId = :restaurantId and v.createAt = :createAt and v.userId = :userId")
-    Optional<Vote> findVote(int restaurantId, LocalDate createAt, int userId);
-
-    @Modifying
-    @Transactional
-    @Query("DELETE FROM Vote v WHERE v.restaurantId = :restaurantId and v.createAt = :createAt and v.userId = :userId")
-    int deleteVote(int restaurantId, LocalDate createAt, int userId);
+    @Query("SELECT v FROM Vote v WHERE v.createAt = :createAt and v.userId = :userId")
+    Optional<Vote> findVote(LocalDate createAt, int userId);
 
     /*
     @Modifying
