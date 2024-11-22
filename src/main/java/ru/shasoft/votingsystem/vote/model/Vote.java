@@ -13,7 +13,11 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "vote",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"create_at", "user_id"}, name = "uk_vote_create_at_user_id")},
-        indexes = @Index(name = "ik_vote_create_at_restaurant_id_user_id", columnList = "create_at, restaurant_id, user_id")
+        indexes = {
+                @Index(name = "ik_vote_restaurant_id_create_at", columnList = "restaurant_id, create_at"),
+                @Index(name = "ik_vote_create_at_restaurant_id", columnList = "create_at, restaurant_id"),
+                @Index(name = "ik_vote_user_id_create_at", columnList = "user_id, create_at")
+        }
 )
 @Getter
 @Setter
