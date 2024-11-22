@@ -1,6 +1,8 @@
 package ru.shasoft.votingsystem.restaurant.web;
 
 import jakarta.validation.Valid;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +23,14 @@ public class AdminRestaurantController extends AbstractRestaurantController {
 
     @DeleteMapping("/restaurant/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Caching(evict = {@CacheEvict(cacheNames = "restaurants", allEntries = true), @CacheEvict(cacheNames = "restaurant", key = "#id")})
     public void delete(@PathVariable int id) {
         log.info("delete {}", id);
         repository.deleteExisted(id);
     }
 
     @PostMapping(value = "/restaurant", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @CacheEvict(cacheNames = "restaurants", allEntries = true)
     public ResponseEntity<Restaurant> createWithLocation(@Valid @RequestBody Restaurant restaurant) {
         log.info("create {}", restaurant);
         checkNew(restaurant);
@@ -39,6 +43,7 @@ public class AdminRestaurantController extends AbstractRestaurantController {
 
     @PutMapping(value = "/restaurant/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Caching(evict = {@CacheEvict(cacheNames = "restaurants", allEntries = true), @CacheEvict(cacheNames = "restaurant", key = "#id")})
     public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable int id) {
         log.info("update {} with id={}", restaurant, id);
         assureIdConsistent(restaurant, id);
