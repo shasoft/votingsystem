@@ -40,6 +40,6 @@ class MenuControllerTest extends AbstractControllerTest {
                         REST_URL_SLASH + "by-restaurant?restaurantId=" + RestaurantTestData.RESTAURANT_ID_1))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
-        action.andExpect(MENU_MATCHER.contentJson(menu2, menu1));
+        action.andExpect(MENU_MATCHER.contentJson(menu1, menu2));
     }
 }
