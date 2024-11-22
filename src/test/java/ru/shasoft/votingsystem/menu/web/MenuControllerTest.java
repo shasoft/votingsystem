@@ -16,6 +16,7 @@ import static ru.shasoft.votingsystem.menu.MenuTestData.*;
 import static ru.shasoft.votingsystem.menu.web.MenuController.REST_URL;
 import static ru.shasoft.votingsystem.user.UserTestData.USER_MAIL;
 
+
 class MenuControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL_SLASH = REST_URL + '/';

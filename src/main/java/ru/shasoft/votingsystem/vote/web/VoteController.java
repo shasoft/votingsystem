@@ -31,7 +31,7 @@ public class VoteController extends AbstractVoteController {
     @Autowired
     protected RestaurantRepository restaurantRepository;
 
-    @GetMapping("/vote")
+    @PutMapping("/vote")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     public void vote(@RequestParam int restaurantId, @AuthenticationPrincipal AuthUser authUser) {
