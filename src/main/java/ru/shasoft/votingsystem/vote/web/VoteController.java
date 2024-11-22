@@ -12,6 +12,7 @@ import ru.shasoft.votingsystem.common.validation.ValidationUtil;
 import ru.shasoft.votingsystem.restaurant.repository.RestaurantRepository;
 import ru.shasoft.votingsystem.user.model.Role;
 import ru.shasoft.votingsystem.vote.model.Vote;
+import ru.shasoft.votingsystem.vote.object.VoteCount;
 
 import javax.annotation.Nullable;
 import java.time.LocalDate;
@@ -57,5 +58,11 @@ public class VoteController extends AbstractVoteController {
             limit = 32;
         }
         return repository.getByUser(authUser.id(), limit);
+    }
+
+    @GetMapping("/votes/by-restaurant")
+    @Transactional
+    public List<VoteCount> byRestaurant(@RequestParam Integer restaurantId) {
+        return repository.getByRestaurant(restaurantId);
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import ru.shasoft.votingsystem.common.BaseRepository;
 import ru.shasoft.votingsystem.vote.model.Vote;
+import ru.shasoft.votingsystem.vote.object.VoteCount;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,4 +18,7 @@ public interface VoteRepository extends BaseRepository<Vote> {
 
     @Query("SELECT v FROM Vote v WHERE v.userId = :userId ORDER BY v.createAt DESC LIMIT :limit")
     List<Vote> getByUser(int userId, int limit);
+
+    @Query("SELECT new ru.shasoft.votingsystem.vote.object.VoteCount(v.createAt, v.restaurantId, COUNT(v)) FROM Vote v GROUP BY v.createAt ORDER BY v.createAt DESC")
+    List<VoteCount> getByRestaurant(int restaurantId);
 }

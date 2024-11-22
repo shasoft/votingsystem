@@ -23,8 +23,7 @@ import static org.mockito.Mockito.mockStatic;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.shasoft.votingsystem.common.validation.ValidationUtil.VOTE_END_TIME;
-import static ru.shasoft.votingsystem.restaurant.RestaurantTestData.RESTAURANT_ID_2;
-import static ru.shasoft.votingsystem.restaurant.RestaurantTestData.RESTAURANT_ID_3;
+import static ru.shasoft.votingsystem.restaurant.RestaurantTestData.*;
 import static ru.shasoft.votingsystem.user.UserTestData.*;
 import static ru.shasoft.votingsystem.vote.VoteTestData.*;
 import static ru.shasoft.votingsystem.vote.web.VoteController.REST_URL;
@@ -124,5 +123,16 @@ class VoteControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
         action.andExpect(VOTE_MATCHER.contentJson(List.of(vote3)));
+    }
+
+    @Test
+    @WithUserDetails(value = USER_MAIL)
+    void byRestaurant() throws Exception {
+        ResultActions action = perform(
+                MockMvcRequestBuilders.get(
+                        REST_URL_SLASH + "votes/by-restaurant?restaurantId=" + RESTAURANT_ID_1))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+        action.andExpect(VOTE_COUNT_MATCHER.contentJson(voteCountForRestaurant2, voteCountForRestaurant1));
     }
 }
