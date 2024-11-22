@@ -13,19 +13,21 @@ import ru.shasoft.votingsystem.restaurant.repository.RestaurantRepository;
 import ru.shasoft.votingsystem.user.model.Role;
 import ru.shasoft.votingsystem.vote.model.Vote;
 
+import javax.annotation.Nullable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping(value = VoteController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class VoteController extends AbstractVoteController {
 
-    static final String REST_URL = "/api/vote";
+    static final String REST_URL = "/api";
     @Autowired
     protected RestaurantRepository restaurantRepository;
 
-    @GetMapping()
+    @GetMapping("/vote")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     public void vote(@RequestParam int restaurantId, @AuthenticationPrincipal AuthUser authUser) {
@@ -47,6 +49,16 @@ public class VoteController extends AbstractVoteController {
             repository.save(vote);
         }
     }
+
+    @GetMapping("/votes")
+    @Transactional
+    public List<Vote> votes(@RequestParam @Nullable Integer limit, @AuthenticationPrincipal AuthUser authUser) {
+        if (limit == null) {
+            limit = 32;
+        }
+        return repository.getByUser(authUser.id(), limit);
+    }
+
 /*
     @PutMapping(value = "/{restaurant_id}")
     @ResponseStatus(HttpStatus.CREATED)
