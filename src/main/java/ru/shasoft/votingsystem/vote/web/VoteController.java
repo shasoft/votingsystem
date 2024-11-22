@@ -58,20 +58,4 @@ public class VoteController extends AbstractVoteController {
         }
         return repository.getByUser(authUser.id(), limit);
     }
-
-/*
-    @PutMapping(value = "/{restaurant_id}")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void like(@PathVariable int restaurant_id, @AuthenticationPrincipal AuthUser authUser) {
-        ValidationUtil.checkUpdateLike(authUser);
-        repository.like(restaurant_id, LocalDate.now(), authUser.id());
-    }
-
-    @DeleteMapping(value = "/{restaurant_id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void unlike(@PathVariable int restaurant_id, @AuthenticationPrincipal AuthUser authUser) {
-        ValidationUtil.checkUpdateLike(authUser);
-        repository.unlike(restaurant_id, LocalDate.now(), authUser.id());
-    }
- */
 }

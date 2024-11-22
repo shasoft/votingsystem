@@ -16,30 +16,5 @@ public interface VoteRepository extends BaseRepository<Vote> {
     Optional<Vote> findVote(LocalDate createAt, int userId);
 
     @Query("SELECT v FROM Vote v WHERE v.userId = :userId ORDER BY v.createAt DESC LIMIT :limit")
-    List<Vote> getByUser(int userId,int limit);
-    /*
-    @Modifying
-    @Transactional
-    @Query("UPDATE Menu m SET m.votes = m.votes + :votes WHERE m.restaurant.id = :restaurantId and m.cookingAt = :createAt")
-    void updateVotes(int restaurantId, LocalDate createAt, int votes);
-
-    @Transactional
-    default Vote like(int restaurantId, LocalDate createAt, int userId) {
-        Vote ret = null;
-        Optional<Vote> optVote = findVote(restaurantId, createAt, userId);
-        if (optVote.isEmpty()) {
-            ret = save(new Vote(null, restaurantId, createAt, userId));
-            updateVotes(restaurantId, createAt, 1);
-        }
-        return ret;
-    }
-
-    @Transactional
-    default void unlike(int restaurantId, LocalDate createAt, int userId) {
-        final int updates = deleteVote(restaurantId, createAt, userId);
-        if (updates != 0) {
-            updateVotes(restaurantId, createAt, -1);
-        }
-    }
-    */
+    List<Vote> getByUser(int userId, int limit);
 }
