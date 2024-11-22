@@ -13,7 +13,6 @@ import ru.shasoft.votingsystem.restaurant.repository.RestaurantRepository;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.shasoft.votingsystem.restaurant.RestaurantTestData.*;
 import static ru.shasoft.votingsystem.restaurant.web.AdminRestaurantController.REST_URL;
@@ -26,25 +25,6 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     @Autowired
     private RestaurantRepository repository;
-
-    @Test
-    @WithUserDetails(value = ADMIN_MAIL)
-    void get() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_ID_1))
-                .andExpect(status().isOk())
-                .andDo(print())
-                // https://jira.spring.io/browse/SPR-14472
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_MATCHER.contentJson(restaurant1));
-    }
-
-    @Test
-    @WithUserDetails(value = ADMIN_MAIL)
-    void getNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + NOT_FOUND))
-                .andDo(print())
-                .andExpect(status().isNotFound());
-    }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
@@ -105,15 +85,6 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
         newRestaurant.setId(newId);
         RESTAURANT_MATCHER.assertMatch(created, newRestaurant);
         RESTAURANT_MATCHER.assertMatch(repository.getExisted(newId), newRestaurant);
-    }
-
-    @Test
-    @WithUserDetails(value = ADMIN_MAIL)
-    void getAll() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + "/restaurants"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_MATCHER.contentJson(restaurant3, restaurant1, restaurant2));
     }
 
     @Test

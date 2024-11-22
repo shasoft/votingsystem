@@ -30,6 +30,14 @@ class RestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = USER_MAIL)
+    void getNotFound() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + NOT_FOUND))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @WithUserDetails(value = USER_MAIL)
     void getAll() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + "/restaurants"))
                 .andExpect(status().isOk())

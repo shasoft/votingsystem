@@ -9,7 +9,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.shasoft.votingsystem.restaurant.model.Restaurant;
 
 import java.net.URI;
-import java.util.List;
 
 import static ru.shasoft.votingsystem.common.validation.ValidationUtil.assureIdConsistent;
 import static ru.shasoft.votingsystem.common.validation.ValidationUtil.checkNew;
@@ -20,22 +19,11 @@ public class AdminRestaurantController extends AbstractRestaurantController {
 
     static final String REST_URL = "/api/admin";
 
-    @Override
-    @GetMapping("/restaurant/{id}")
-    public Restaurant get(@PathVariable int id) {
-        return super.get(id);
-    }
-
     @DeleteMapping("/restaurant/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
         log.info("delete {}", id);
         repository.deleteExisted(id);
-    }
-
-    @GetMapping("/restaurant" + "s")
-    public List<Restaurant> getAll() {
-        return super.getAll();
     }
 
     @PostMapping(value = "/restaurant", consumes = MediaType.APPLICATION_JSON_VALUE)
