@@ -1,5 +1,6 @@
 package ru.shasoft.votingsystem.menu.web;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,11 +20,13 @@ public class MenuController extends AbstractMenuController {
     static final String REST_URL = "/api/menus";
 
     @GetMapping("/by-date")
+    @Cacheable("restaurants-by-date")
     public List<Menu> byDate(@RequestParam @DateTimeFormat(iso = DATE) LocalDate date) {
         return repository.getByDate(date);
     }
 
     @GetMapping("/by-restaurant")
+    @Cacheable("restaurants-by-restaurant")
     public List<Menu> byRestaurant(@RequestParam int restaurantId) {
         return repository.getByRestaurant(restaurantId);
     }

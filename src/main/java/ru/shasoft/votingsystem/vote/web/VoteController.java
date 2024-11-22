@@ -1,6 +1,7 @@
 package ru.shasoft.votingsystem.vote.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -56,6 +57,7 @@ public class VoteController extends AbstractVoteController {
 
     @GetMapping("/votes")
     @Transactional
+    @Cacheable("votes")
     public List<Vote> votes(@RequestParam @Nullable Integer limit, @AuthenticationPrincipal AuthUser authUser) {
         if (limit == null) {
             limit = 32;
@@ -65,12 +67,14 @@ public class VoteController extends AbstractVoteController {
 
     @GetMapping("/votes/by-restaurant")
     @Transactional
+    @Cacheable("votes-by-restaurant")
     public List<VoteCount> byRestaurant(@RequestParam Integer restaurantId) {
         return repository.getByRestaurant(restaurantId);
     }
 
     @GetMapping("/votes/by-date")
     @Transactional
+    @Cacheable("votes-by-date")
     public List<VoteCount> byDate(@RequestParam @DateTimeFormat(iso = DATE) LocalDate date) {
         return repository.getByDate(date);
     }
