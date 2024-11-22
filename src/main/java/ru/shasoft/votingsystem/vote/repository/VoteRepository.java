@@ -19,6 +19,9 @@ public interface VoteRepository extends BaseRepository<Vote> {
     @Query("SELECT v FROM Vote v WHERE v.userId = :userId ORDER BY v.createAt DESC LIMIT :limit")
     List<Vote> getByUser(int userId, int limit);
 
-    @Query("SELECT new ru.shasoft.votingsystem.vote.object.VoteCount(v.createAt, v.restaurantId, COUNT(v)) FROM Vote v GROUP BY v.createAt ORDER BY v.createAt DESC")
+    @Query("SELECT new ru.shasoft.votingsystem.vote.object.VoteCount(v.createAt, v.restaurantId, COUNT(v)) FROM Vote v WHERE v.restaurantId = :restaurantId GROUP BY v.createAt ORDER BY v.createAt DESC")
     List<VoteCount> getByRestaurant(int restaurantId);
+
+    @Query("SELECT new ru.shasoft.votingsystem.vote.object.VoteCount(v.createAt, v.restaurantId, COUNT(v)) FROM Vote v WHERE v.createAt = :date GROUP BY v.restaurantId ORDER BY COUNT(v) DESC")
+    List<VoteCount> getByDate(LocalDate date);
 }

@@ -130,9 +130,20 @@ class VoteControllerTest extends AbstractControllerTest {
     void byRestaurant() throws Exception {
         ResultActions action = perform(
                 MockMvcRequestBuilders.get(
-                        REST_URL_SLASH + "votes/by-restaurant?restaurantId=" + RESTAURANT_ID_1))
+                        REST_URL_SLASH + "votes/by-restaurant?restaurantId=" + RESTAURANT_ID_2))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
         action.andExpect(VOTE_COUNT_MATCHER.contentJson(voteCountForRestaurant2, voteCountForRestaurant1));
+    }
+
+    @Test
+    @WithUserDetails(value = USER_MAIL)
+    void byDate() throws Exception {
+        ResultActions action = perform(
+                MockMvcRequestBuilders.get(
+                        REST_URL_SLASH + "votes/by-date?date=" + dateToParam(LocalDate.now())))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+        action.andExpect(VOTE_COUNT_MATCHER.contentJson(List.of(voteCountForDate1)));
     }
 }

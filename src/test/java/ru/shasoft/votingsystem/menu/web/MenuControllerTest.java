@@ -9,7 +9,6 @@ import ru.shasoft.votingsystem.AbstractControllerTest;
 import ru.shasoft.votingsystem.restaurant.RestaurantTestData;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,7 +25,7 @@ class MenuControllerTest extends AbstractControllerTest {
     void byDate() throws Exception {
         ResultActions action = perform(
                 MockMvcRequestBuilders.get(
-                        REST_URL_SLASH + "by-date?date=" + LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))))
+                        REST_URL_SLASH + "by-date?date=" + dateToParam(LocalDate.now())))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
         action.andExpect(MENU_MATCHER.contentJson(menu3, menu4));

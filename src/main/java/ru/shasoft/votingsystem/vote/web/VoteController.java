@@ -1,6 +1,7 @@
 package ru.shasoft.votingsystem.vote.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,6 +20,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 
 @RestController
 @RequestMapping(value = VoteController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -64,5 +67,11 @@ public class VoteController extends AbstractVoteController {
     @Transactional
     public List<VoteCount> byRestaurant(@RequestParam Integer restaurantId) {
         return repository.getByRestaurant(restaurantId);
+    }
+
+    @GetMapping("/votes/by-date")
+    @Transactional
+    public List<VoteCount> byDate(@RequestParam @DateTimeFormat(iso = DATE) LocalDate date) {
+        return repository.getByDate(date);
     }
 }
