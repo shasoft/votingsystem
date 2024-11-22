@@ -15,7 +15,10 @@ import java.util.List;
 @Entity
 @Table(name = "menu",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "cooking_at"}, name = "uk_menu_restaurant_id_create_at")},
-        indexes = @Index(name = "ik_menu_create_at_restaurant_id", columnList = "cooking_at, restaurant_id")
+        indexes = {
+                @Index(name = "ik_menu_cooking_at", columnList = "cooking_at"),
+                @Index(name = "ik_menu_restaurant_id", columnList = "restaurant_id")
+        }
 )
 @Getter
 @Setter
